@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Searchmetrics\SeniorTest\integrationTests\Service;
 
@@ -12,7 +12,7 @@ class CacheAbleGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function fs()
+    public function idGenerationAndCacheGet()
     {
         $phpUrlIdGenerator = new PhpUrlIdGenerator();
         $fileSystemCache = new FileSystemCache();

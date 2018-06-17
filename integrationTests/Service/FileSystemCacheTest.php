@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Searchmetrics\SeniorTest\integrationTests\Service;
 
@@ -10,7 +10,7 @@ class FileSystemCacheTest extends TestCase
     /**
      * @test
      */
-    public function setGet(): void
+    public function setGet()
     {
         $fileSystemCache = new FileSystemCache();
 
@@ -21,7 +21,7 @@ class FileSystemCacheTest extends TestCase
     /**
      * @test
      */
-    public function getWithNonExistentKey(): void
+    public function getWithNonExistentKey()
     {
         $fileSystemCache = new FileSystemCache();
 
