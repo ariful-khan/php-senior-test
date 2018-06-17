@@ -8,6 +8,13 @@ services:
       volumes:
           - ./:/var/www/
 
+  app-test:
+      build: ./docker/php
+      container_name: app_test
+      command: ./vendor/bin/phpunit
+      volumes:
+          - ./:/var/www/
+
   app:
       build: ./docker/php
       container_name: app_searchmetrics
