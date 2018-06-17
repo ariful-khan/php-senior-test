@@ -11,9 +11,19 @@ services:
   app-test:
       build: ./docker/php
       container_name: app_test
-      command: ./vendor/bin/phpunit
+      command: >
+            /bin/bash -c "
+              if [ ! -f ./vendor/autoload.php ]; then
+                  sleep 60;
+                  ./vendor/bin/phpunit;
+              else
+                 ./vendor/bin/phpunit;
+              fi
+            "
       volumes:
           - ./:/var/www/
+      depends_on:
+          - app-composer
 
   app:
       build: ./docker/php
@@ -23,3 +33,5 @@ services:
         - "8080:8080"
       volumes:
           - ./:/var/www/
+      depends_on:
+          - app-composer
