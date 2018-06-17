@@ -34,3 +34,13 @@ SELECT CAST(CONV(SUBSTRING(SHA1("http://google.de/hh"), 1, 16), 16, 10) AS SIGNE
 - **[o]** Extend the environment to be able to run an integration test with your implementation against it and write that integration test
 - **[.]** Extend the environment further with a small HTTP service allowing consumers to look up the URL IDs for a list URLs they provide
 - **[.]** That service should probably not always re-calculate those IDs on the fly, so implement a caching layer of some fashion
+
+## Setup Steps
+
+- We need Docker and Docker-Compose to run the project.
+- Run this command, It will install all php dependency and will run all tests and also will run the HTTP service to get url ids.
+
+```bash
+docker-compose up
+```
+- Now go to "http://localhost:8080/urlIds?urls=http://lopst.com,http://lopst2.com" to get urlids of this two url (pass as many as url needed as comma separated string) 
