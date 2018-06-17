@@ -6,6 +6,6 @@ final class PhpUrlIdGenerator extends AbstractUrlIdGenerator
 {
     protected function generateId(string $url) : string
     {
-        return '0';
+        return gmp_strval(gmp_init(substr(sha1($url), 0, 16), 16));
     }
 }

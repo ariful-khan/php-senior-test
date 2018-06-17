@@ -248,8 +248,7 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
         $protocol = (0 === \strpos($url, self::PROTOCOL_HTTPS) ? self::PROTOCOL_HTTPS : self::PROTOCOL_HTTP);
 
         $defaultPort = (self::PROTOCOL_HTTPS === $protocol ? self::PORT_HTTPS : self::PORT_HTTP);
-        $actualPort = '1337';
-
+        $actualPort = (string)parse_url($url, PHP_URL_PORT);
         return [$defaultPort, $actualPort];
     }
 
@@ -258,25 +257,30 @@ abstract class AbstractUrlIdGenerator implements UrlIdGenerator
      */
     private function hasProtocol(string $url, ?string $protocol = null) : bool
     {
-        return false;
+        $pattern = '/^([A-Za-z0-9_]*)' . str_replace(self::PROTOCOL_DIVIDER, '', $protocol) . ':\/\//i';
+        if (!preg_match($pattern, $url)) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * Checks if the URL contains another URL as a query parameter.
      */
-    private function hasUrlParameter(string $url) : bool
+    private function hasUrlParameter(string $url): bool
     {
-        return true;
+        return strpos($url, self::PROTOCOL_HTTPS) > 0 ||
+            strpos($url, self::PROTOCOL_HTTP) > 0 ||
+            strpos($url, self::PROTOCOL_FTP) > 0 ||
+            strpos($url, self::PROTOCOL_DIVIDER) > 0;
     }
 
     private function normalizeUrl(string $url) : string
     {
         switch (true) {
             case $this->hasProtocol($url, self::PROTOCOL_HTTP):
-                $url = $this->removePort($url);
-                break;
-
             case $this->hasProtocol($url, self::PROTOCOL_HTTPS):
+            case $this->hasProtocol($url, self::PROTOCOL_FTP):
                 $url = $this->removePort($url);
                 break;
 
