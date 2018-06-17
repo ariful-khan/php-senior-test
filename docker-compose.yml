@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  app-composer:
+      build: ./docker/php
+      container_name: app_composer
+      command: composer install
+      volumes:
+          - ./:/var/www/
+
+  app:
+      build: ./docker/php
+      container_name: app_searchmetrics
+      volumes:
+          - ./:/var/www/
